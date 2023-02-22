@@ -1,6 +1,6 @@
 # Mythic Companion (mythiccompanion)
 
-A terrible app no one wanted.
+A companion for use with Word Mill Game's "Mythic GM Emulator 2E" by Tana Pigeon. This app is an unofficial fan project- stand by for an official app "soon" according to Tana.
 
 ## Install the dependencies
 ```bash
