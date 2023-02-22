@@ -16,7 +16,6 @@
         </q-toolbar-title>
 
         <div>By: ZenthWolf</div>
-        <!--<div>{{ curGame }}</div>-->
       </q-toolbar>
       <q-img
         src="../statics/TESTONLY/MythicTitle.png"
@@ -30,6 +29,22 @@
       bordered
     >
       <q-list>
+        <q-item-label
+          header
+        >
+          Campaigns
+        </q-item-label>
+        <q-item
+          v-for="(item,index) in config.data.index.sort((a,b) => (a.name || '').localeCompare(b.name))"
+          :key="index"
+          :active="item.id == campaign.data?.id"
+          clickable
+          v-ripple
+          >
+          <q-item-section @click="config.data.current = item.id">
+            {{ item.name || '(unnamed)' }}
+          </q-item-section>
+        </q-item>
         <q-item-label
           header
         >
@@ -85,6 +100,9 @@
 import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 
+import { useConfig } from 'src/stores/config'
+import { useCampaign } from 'src/stores/campaign'
+
 const linksList = [
   {
     title: 'Docs',
@@ -105,9 +123,14 @@ export default defineComponent({
     const leftDrawerOpen = ref(false)
     const showAbout = ref(false)
 
+    const config = useConfig()
+    const campaign = useCampaign()
+
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
+      config,
+      campaign,
       showAbout,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
