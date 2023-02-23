@@ -6,6 +6,7 @@ import {
 import { NewCampaign } from 'src/lib/campaign'
 import { useConfig } from './config'
 import { db } from 'src/lib/db'
+import { v4 as uuid } from 'uuid'
 // import { exportFile } from 'quasar'
 
 export const useCampaign = defineStore({
@@ -32,6 +33,24 @@ export const useCampaign = defineStore({
 
       const storeCopy = JSON.parse(JSON.stringify(this.data)) as ICampaign
       await db.campaign.put(storeCopy).catch((err) => console.log(err))
+    },
+
+    async newChar () {
+      const character = {
+        id: uuid(),
+        name: 'NewPlayer',
+        desc: '',
+        notes: ''
+      }
+      this.data.character.push(character)
+    },
+
+    async removeChar (id: string) {
+      const indexToRemove = this.data.character.findIndex(c => c.id === id)
+
+      if (indexToRemove !== -1) {
+        this.data.character.splice(indexToRemove, 1)
+      }
     },
 
     async save () {

@@ -19,9 +19,3 @@ export const NewCampaign = (): ICampaign => {
     thread: []
   }
 }
-
-/*  id: string;
-name: string;
-character: ICharacter[];
-npc: INPC[];
-thread: IThread[]; */
