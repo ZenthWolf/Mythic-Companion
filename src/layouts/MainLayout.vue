@@ -34,6 +34,7 @@
         >
           Campaigns
         </q-item-label>
+        <q-btn class="full-width" label="New Campaign" @click="addCampaign" icon-right="add" />
         <q-item
           v-for="(item,index) in config.data.index.sort((a,b) => (a.name || '').localeCompare(b.name))"
           :key="index"
@@ -43,6 +44,18 @@
           >
           <q-item-section @click="config.data.current = item.id">
             {{ item.name || '(unnamed)' }}
+          </q-item-section>
+          <q-item-section class="col-shrink" v-if="config.data.index.length > 1">
+            <q-btn
+              icon="delete"
+              flat
+              dense
+              @click="
+                campaignToDelete = item.id;
+                campaignToDeleteName = item.name;
+                showCampaignDelete = true;
+              "
+            />
           </q-item-section>
         </q-item>
         <q-item-label
@@ -67,6 +80,28 @@
         </q-item>
       </q-list>
     </q-drawer>
+
+    <q-dialog v-model="showCampaignDelete" :maximized="$q.platform.is.mobile">
+      <q-card>
+        <q-card-section class="text-center text-bold bg-secondary"> Delete Campaign </q-card-section>
+        <q-card-section class="text-h6 text-center"> Warning!</q-card-section>
+        <q-card-section class="text-subtitle">
+          <p>Deleting a campaign cannot be reversed. Consider exporting before deleting.</p>
+          <q-card-section class="text-h6 text-center"> Delete '{{ campaignToDeleteName }}'?</q-card-section>
+        </q-card-section>
+
+        <q-card-actions align="center">
+          <q-btn
+            color="warning"
+            label="DELETE"
+            @click="removeCampaign(campaignToDelete).then(() => {
+              showCampaignDelete = false;
+            })"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
     <q-dialog v-model="showAbout" :maximized="$q.platform.is.mobile">
       <q-card class="card-bg">
         <q-card-section class="row bg-secondary text-h5 justify-between">
@@ -126,11 +161,22 @@ export default defineComponent({
     const config = useConfig()
     const campaign = useCampaign()
 
+    const addCampaign = () => (campaign.new())
+    const removeCampaign = (id: string) => campaign.delete(id)
+    const campaignToDelete = ref('')
+    const campaignToDeleteName = ref('')
+    const showCampaignDelete = ref(false)
+
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
       config,
       campaign,
+      addCampaign,
+      removeCampaign,
+      campaignToDelete,
+      campaignToDeleteName,
+      showCampaignDelete,
       showAbout,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value

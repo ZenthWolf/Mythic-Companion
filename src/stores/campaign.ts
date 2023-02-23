@@ -71,6 +71,20 @@ export const useCampaign = defineStore({
       }
     },
 
+    async delete (id: string) {
+      try {
+        const config = useConfig()
+        await db.campaign.delete(id)
+        if (id === config.data.current) {
+          this.loadFirst()
+        }
+
+        await config.updateIndex()
+      } catch (err) {
+        console.log(err)
+      }
+    },
+
     async populateStore () {
       const config = useConfig()
       await config.populateStore()
