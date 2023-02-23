@@ -6,7 +6,7 @@
     <br>
     Our lead character is {{ campaign.data.character[0].name }}<br>
     They are : {{ campaign.data.character[0].desc }}<br>
-    And it should be know that : {{ campaign.data.character[0].notes }}<br>
+    And it should be known that : {{ campaign.data.character[0].notes }}<br>
     <q-btn class="col-shrink" flat dense icon="add_circle" @click="addCharacter" />
     <p-character
       v-for="pc,i in campaign.data.character"

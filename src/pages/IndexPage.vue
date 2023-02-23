@@ -1,5 +1,5 @@
 <template>
-  <q-page class="row items-center justify-evenly">
+  <q-page class="column items-center justify-evenly">
     <q-img src="../statics/test.png" style="width:250px; height:auto;"/>
     <example-component
       title="Example component"
@@ -14,17 +14,16 @@
 import { Meta } from 'components/models'
 import ExampleComponent from 'components/ExampleComponent.vue'
 import { defineComponent, ref, computed } from 'vue'
+
 import { useConfig } from 'src/stores/config'
+import { useCampaign } from 'src/stores/campaign'
 
 export default defineComponent({
   name: 'IndexPage',
   components: { ExampleComponent },
   setup () {
     const config = useConfig()
-
-    if (config.data.index[0]) {
-      config.data.index[0].name = 'Success, at a price'
-    }
+    const campaign = useCampaign()
 
     const todos = computed(() => [
       {
@@ -33,11 +32,11 @@ export default defineComponent({
       },
       {
         id: 2,
-        content: config.data.index.length > 0 ? config.data.index[0].name : 'Err: No Campaign Loaded'
+        content: config.data.index.length > 0 ? campaign.data.name : 'Err: No Campaign Loaded'
       },
       {
         id: 3,
-        content: config.data.index.length > 0 ? config.data.index[0].id : 'Err: No Campaign Loaded'
+        content: config.data.index.length > 0 ? campaign.data.id : 'Err: No Campaign Loaded'
       },
       {
         id: 4,
@@ -51,7 +50,7 @@ export default defineComponent({
     const meta = ref<Meta>({
       totalCount: 1200
     })
-    return { config, todos, meta }
+    return { config, campaign, todos, meta }
   }
 })
 </script>
