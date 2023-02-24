@@ -19,7 +19,6 @@
         v-bind='dragOptions'
         @start='drag = true'
         @end='drag = false'
-        item-key='order'
       >
         <template #item='{ element }'>
           <li class='list-group-item'>
