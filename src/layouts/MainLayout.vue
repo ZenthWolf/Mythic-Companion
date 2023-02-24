@@ -10,20 +10,24 @@
           aria-label="Menu"
           @click="toggleLeftDrawer"
         />
-
         <q-toolbar-title>
           Mythic Companion
         </q-toolbar-title>
 
         <div>By: ZenthWolf</div>
       </q-toolbar>
+      <q-tabs class="mythic-tabs" align="center" dense justify="center">
+        <q-route-tab to="/" label="Campaign" />
+        <q-route-tab to="/index" label="Index" />
+        <q-route-tab to="/testground" label="TestGround" />
+      </q-tabs>
       <q-img
         src="../statics/TESTONLY/MythicTitle.png"
         cover
         fit="fill"
         class="header-image absolute-top"/>
     </q-header>
-    <q-drawer
+    <q-drawer class="left-drawer"
       v-model="leftDrawerOpen"
       show-if-above
       bordered
@@ -194,4 +198,15 @@ export default defineComponent({
     z-index: -1;
     opacity: 0.75;
   }
+
+  .mythic-tabs {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.left-drawer {
+  background-color: #9fa7bd;
+}
 </style>
