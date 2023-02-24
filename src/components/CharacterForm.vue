@@ -45,7 +45,6 @@ import { defineComponent, ref, watch, PropType } from 'vue'
 
 import { ICharacter } from './models'
 import IInput from 'src/components/IInput.vue'
-import { PROPERTY_TYPES } from '@babel/types'
 import { useCampaign } from 'src/stores/campaign'
 
 export default defineComponent({
