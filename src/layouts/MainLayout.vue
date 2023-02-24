@@ -27,7 +27,7 @@
         fit="fill"
         class="header-image absolute-top"/>
     </q-header>
-    <q-drawer
+    <q-drawer class="left-drawer"
       v-model="leftDrawerOpen"
       show-if-above
       bordered
@@ -204,5 +204,9 @@ export default defineComponent({
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.left-drawer {
+  background-color: #9fa7bd;
 }
 </style>

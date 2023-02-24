@@ -87,9 +87,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .button {
-  margin-top: 35px
+  margin-top: 35px;
+  background-color: $primary;
 }
 
 .flip-list-move {
@@ -116,4 +117,5 @@ export default {
 .list-group-item i {
   cursor: pointer
 }
+
 </style>
