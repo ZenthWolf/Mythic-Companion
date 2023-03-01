@@ -77,12 +77,28 @@ export default defineComponent({
 .table-entry {
   padding: 5px;
   text-align: left;
+  border-right: 1px solid #000000;
 }
+
+.table-entry:nth-child(even) {
+  background-color: #53535346;
+}
+
+.table-entry:last-child {
+  border-right: none;
+}
+
 .selected {
-  background-color: $primary
+  font-weight: bold;
+  color: rgb(189, 189, 189);
+  background-color: $primary !important
 }
 
 .unselected {
   opacity: 0.5
+}
+
+table {
+  border-collapse: collapse;
 }
 </style>
