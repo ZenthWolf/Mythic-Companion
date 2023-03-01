@@ -27,9 +27,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 
-import tables from 'src/lib/meaning.json'
+import tables from 'src/lib/mythictables.json'
 
 export default defineComponent({
   name: 'MeaningTable',
@@ -40,16 +40,31 @@ export default defineComponent({
     }
     const d1 = d(100)
     const d2 = d(100)
-    const act1 = tables[0].Meaning[0].Table[d1 - 1]
-    const act2 = tables[0].Meaning[1].Table[d2 - 1]
+
+    const act1Table = computed(() => {
+      if (tables[0]?.Meaning) {
+        return tables[0].Meaning[0].Table
+      }
+      return []
+    })
+
+    const act2Table = computed(() => {
+      if (tables[0]?.Meaning) {
+        return tables[0].Meaning[1].Table
+      }
+      return []
+    })
+
+    const act1 = act1Table.value[d1 - 1]
+    const act2 = act2Table.value[d2 - 1]
 
     const columns = 5
-    const rows = Math.ceil(tables[0].Meaning[0].Table.length / columns)
+    const rows = Math.ceil(act1Table.value.length / columns)
     const fetchentry1 = (i:number, j:number) => {
-      return tables[0].Meaning[0].Table[(j - 1) * rows + i - 1][1].toString() + ': ' + tables[0].Meaning[0].Table[(j - 1) * rows + i - 1][2].toString()
+      return act1Table.value[(j - 1) * rows + i - 1][1].toString() + ': ' + act1Table.value[(j - 1) * rows + i - 1][2].toString()
     }
     const fetchentry2 = (i:number, j:number) => {
-      return tables[0].Meaning[0].Table[(j - 1) * rows + i - 1][1].toString() + ': ' + tables[0].Meaning[1].Table[(j - 1) * rows + i - 1][2].toString()
+      return act2Table.value[(j - 1) * rows + i - 1][1].toString() + ': ' + act2Table.value[(j - 1) * rows + i - 1][2].toString()
     }
 
     return {
