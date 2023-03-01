@@ -98,7 +98,15 @@ export default defineComponent({
   opacity: 0.5
 }
 
+td {
+  padding: 5px;
+  text-align: left;
+  border-right: 1px solid #000000;
+  width: 20%;
+}
+
 table {
+  table-layout: fixed;
   border-collapse: collapse;
 }
 </style>
