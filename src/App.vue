@@ -21,8 +21,7 @@ export default defineComponent({
 
     onMounted(async () => {
       await initialiseData()
-      console.log('here')
-      console.log(config.data.index[0].name)
+      console.log('initializeData')
     })
 
     watch(
