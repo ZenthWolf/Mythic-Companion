@@ -7,8 +7,8 @@
   <table>
     <tbody>
       <tr v-for="i in rows" :key="i">
-        <td v-for="j in columns" :key="j" class="table-entry">
-          {{ fetchentry1(i,j) }}
+        <td v-for="j in columns" :key="j" class="table-entry" :class="{ 'selected': fetchentry1(i,j)[1] === act1[2], 'unselected': fetchentry1(i,j)[1] !== act1[2] }">
+          {{ fetchentry1(i,j)[0] }}
         </td>
       </tr>
     </tbody>
@@ -18,8 +18,8 @@
   <table>
     <tbody>
       <tr v-for="i in rows" :key="i">
-        <td v-for="j in columns" :key="j" class="table-entry">
-          {{ fetchentry2(i,j) }}
+        <td v-for="j in columns" :key="j" class="table-entry" :class="{ 'selected': fetchentry2(i,j)[1] === act2[2], 'unselected': fetchentry2(i,j)[1] !== act2[2] }">
+          {{ fetchentry2(i,j)[0] }}
         </td>
       </tr>
     </tbody>
@@ -52,10 +52,10 @@ export default defineComponent({
     const columns = 5
     const rows = Math.ceil(act1Table.length / columns)
     const fetchentry1 = (i:number, j:number) => {
-      return act1Table[(j - 1) * rows + i - 1][1].toString() + ': ' + act1Table[(j - 1) * rows + i - 1][2].toString()
+      return [act1Table[(j - 1) * rows + i - 1][1].toString() + ': ' + act1Table[(j - 1) * rows + i - 1][2].toString(), act1Table[(j - 1) * rows + i - 1][2]]
     }
     const fetchentry2 = (i:number, j:number) => {
-      return act2Table[(j - 1) * rows + i - 1][1].toString() + ': ' + act2Table[(j - 1) * rows + i - 1][2].toString()
+      return [act2Table[(j - 1) * rows + i - 1][1].toString() + ': ' + act2Table[(j - 1) * rows + i - 1][2].toString(), act2Table[(j - 1) * rows + i - 1][2]]
     }
 
     return {
@@ -73,9 +73,16 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .table-entry {
   padding: 5px;
   text-align: left;
+}
+.selected {
+  background-color: $primary
+}
+
+.unselected {
+  opacity: 0.5
 }
 </style>

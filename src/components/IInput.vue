@@ -5,7 +5,7 @@
         :autogrow="autogrow"
         :clearable="clearable"
         dense
-        standout="bg-purple-10 text-white"
+        standout="bg-primary"
         :input-style="{ color: '#ECEFF4' }"
         debound="500"
     >
