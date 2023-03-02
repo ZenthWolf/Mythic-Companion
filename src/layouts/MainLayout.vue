@@ -109,7 +109,7 @@
     <q-dialog v-model="showAbout" :maximized="$q.platform.is.mobile">
       <q-card class="card-bg">
         <q-card-section class="row bg-secondary text-h5 justify-between">
-          <div class="col-grow sf-header">About</div>
+          <div class="col-grow sf-header card-header">About</div>
           <q-btn class="col-shrink" flat dense icon="close" @click="showAbout = false" />
         </q-card-section>
         <q-card-section class="about-text text-justify">
@@ -212,5 +212,9 @@ export default defineComponent({
 
 .left-drawer {
   background-color: #9fa7bd;
+}
+
+.card-header {
+  color: $off-white
 }
 </style>

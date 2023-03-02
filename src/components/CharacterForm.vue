@@ -1,5 +1,5 @@
 <template>
-    <hr/>
+    <hr color="black"/>
     <q-item>
       <q-item-section>
         <i-input class="q-mb-md" label="Name" v-model="character.name" />
@@ -20,7 +20,7 @@
     <i-input class="q-mb-md" label="Notes" v-model="character.notes" />
     <q-dialog v-model="showPCDelete" :maximized="$q.platform.is.mobile">
       <q-card>
-        <q-card-section class="text-center text-bold bg-secondary"> Delete Character </q-card-section>
+        <q-card-section class="text-center text-bold bg-secondary card-title"> Delete Character </q-card-section>
         <q-card-section class="text-h6 text-center"> Warning!</q-card-section>
         <q-card-section class="text-subtitle">
           <p>Deleting a character cannot be reversed.</p>
@@ -88,3 +88,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss" scoped>
+.card-title{
+  color: $off-white
+}
+</style>

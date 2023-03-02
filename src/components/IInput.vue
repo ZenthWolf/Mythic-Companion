@@ -6,7 +6,7 @@
         :clearable="clearable"
         dense
         standout="bg-primary"
-        :input-style="{ color: '#ECEFF4' }"
+        :input-style="{ color: '#CCCCCC' }"
         debound="500"
     >
         <template v-slot:append>
