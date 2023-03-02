@@ -1,4 +1,7 @@
 <template>
+  <button class='btn btn-secondary button' @click='roll'>
+    Roll
+  </button>
   <hr/>
   {{ d1 }} {{ act1[2] }}<br>
   {{ d2 }} {{ act2[2] }}<br>
@@ -27,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 import tables from 'src/lib/mythictables.json'
 
@@ -38,16 +41,16 @@ export default defineComponent({
     const d = (size: number) => {
       return Math.floor(Math.random() * size) + 1
     }
-    const d1 = d(100)
-    const d2 = d(100)
+    const d1 = ref(d(100))
+    const d2 = ref(d(100))
 
     const actTable = tables[0]?.Meaning?.find((meaning) => meaning.Name === 'Action')
 
     const act1Table = actTable?.Subcategory?.find((subcategory): subcategory is { Name: string; Table: (string | number)[][] } => subcategory.Name === 'Action 1')?.Table || []
     const act2Table = actTable?.Subcategory?.find((subcategory): subcategory is { Name: string; Table: (string | number)[][] } => subcategory.Name === 'Action 2')?.Table || []
 
-    const act1 = act1Table[d1 - 1]
-    const act2 = act2Table[d2 - 1]
+    const act1 = act1Table[d1.value - 1]
+    const act2 = act2Table[d2.value - 1]
 
     const columns = 5
     const rows = Math.ceil(act1Table.length / columns)
@@ -59,21 +62,39 @@ export default defineComponent({
     }
 
     return {
+      d,
       tables,
       d1,
       d2,
       act1,
+      act1Table,
       act2,
+      act2Table,
       columns,
       rows,
       fetchentry1,
       fetchentry2
+    }
+  },
+
+  methods: {
+    roll () {
+      this.d1 = this.d(100)
+      this.act1 = this.act1Table[this.d1 - 1]
+      this.d2 = this.d(100)
+      this.act2 = this.act2Table[this.d1 - 1]
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
+.button {
+  margin-top: 35px;
+  background-color: $secondary;
+  color:rgb(189, 189, 189);
+}
+
 .table-entry {
   padding: 5px;
   text-align: left;
