@@ -17,6 +17,7 @@
       }"
       v-model='campaign.data.character'
       v-bind='dragOptions'
+      :item-key="(character: ICharacter) => character.id"
       @start='drag = true'
       @end='drag = false'
     >
@@ -45,6 +46,9 @@ import draggable from 'vuedraggable'
 import IInput from 'src/components/IInput.vue'
 import PCharacter from 'src/components/CharacterForm.vue'
 import { useCampaign } from 'src/stores/campaign'
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ICharacter } from 'src/components/models'
 
 export default defineComponent({
   name: 'CampaignPage',

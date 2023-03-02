@@ -12,10 +12,10 @@
           </div>
         <hr color="black"/>
         <h4 class="table-title">Action 1</h4>
-        <table>
+        <table v-on:mousedown="primeDrag1" v-on:mousemove="dragUpdate1">
           <tbody>
             <tr v-for="i in rows" :key="i">
-              <td v-for="j in columns" :key="j" class="table-entry" :class="{ 'selected': act1 && act1Table[transposeEntry(i, j)][2] === act1[2], 'unselected': act1 && act1Table[transposeEntry(i, j)][2] !== act1[2] }">
+              <td v-for="j in columns" :key="j" class="table-entry" :class="{ 'selected': act1 && act1Table[transposeEntry(i, j)][2] === act1[2], 'unselected': act1 && act1Table[transposeEntry(i, j)][2] !== act1[2] }" :data-flr="act1Table[transposeEntry(i, j)][0]" :data-clg="act1Table[transposeEntry(i, j)][1]">
                 {{ `${act1Table[transposeEntry(i, j)][1]}: ${act1Table[transposeEntry(i, j)][2]}` }}
               </td>
             </tr>
@@ -23,10 +23,10 @@
         </table>
         <hr color="black"/>
         <h4 class="table-title">Action 2</h4>
-        <table>
+        <table v-on:mousedown="primeDrag2" v-on:mousemove="dragUpdate2">
           <tbody>
             <tr v-for="i in rows" :key="i">
-              <td v-for="j in columns" :key="j" class="table-entry" :class="{ 'selected': act2 && act2Table[transposeEntry(i, j)][2] === act2[2], 'unselected': act2 && act2Table[transposeEntry(i, j)][2] !== act2[2] }">
+              <td v-for="j in columns" :key="j" class="table-entry" :class="{ 'selected': act2 && act2Table[transposeEntry(i, j)][2] === act2[2], 'unselected': act2 && act2Table[transposeEntry(i, j)][2] !== act2[2] }" :data-flr="act1Table[transposeEntry(i, j)][0]" :data-clg="act1Table[transposeEntry(i, j)][1]">
                 {{ `${act2Table[transposeEntry(i, j)][1]}: ${act2Table[transposeEntry(i, j)][2]}` }}
               </td>
             </tr>
@@ -44,19 +44,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 
 import tables from 'src/lib/mythictables.json'
 
 export default defineComponent({
   name: 'MeaningTable',
   components: { },
-  data () {
-    return {
-      act1: undefined as (string | number)[] | undefined,
-      act2: undefined as (string | number)[] | undefined
-    }
-  },
   setup () {
     const d = (size: number) => {
       return Math.floor(Math.random() * size) + 1
@@ -69,12 +63,92 @@ export default defineComponent({
     const act1Table = actTable?.Subcategory?.find((subcategory): subcategory is { Name: string; Table: (string | number)[][] } => subcategory.Name === 'Action 1')?.Table || []
     const act2Table = actTable?.Subcategory?.find((subcategory): subcategory is { Name: string; Table: (string | number)[][] } => subcategory.Name === 'Action 2')?.Table || []
 
+    const act1 = ref(undefined as (string | number)[] | undefined)
+    const act2 = ref(undefined as (string | number)[] | undefined)
     const columns = 5
     const rows = Math.ceil(act1Table.length / columns)
 
     const transposeEntry = (i:number, j:number) => {
       return (j - 1) * rows + i - 1
     }
+
+    // CODE DUPLICATION TO BE CLEARED UP IN A COMPONENT THAT HANDLES DRAWING A TABLE
+    const dragPrimed1 = ref(false)
+    const dragPrimed2 = ref(false)
+
+    const primeDrag1 = (event: MouseEvent) => {
+      if (dragPrimed1.value === false) {
+        const cell = (event.target as HTMLElement)
+        const floor = Number(cell.dataset.flr)
+        const ceil = Number(cell.dataset.clg)
+
+        if (floor && ceil) {
+          if (d1.value >= floor && d1.value <= ceil) {
+            event.preventDefault()
+            dragPrimed1.value = true
+            d1.value = Math.floor((floor + ceil) / 2)
+          }
+        }
+      }
+    }
+
+    const primeDrag2 = (event: MouseEvent) => {
+      if (dragPrimed2.value === false) {
+        const cell = (event.target as HTMLElement)
+        const floor = Number(cell.dataset.flr)
+        const ceil = Number(cell.dataset.clg)
+
+        if (floor && ceil) {
+          if (d2.value >= floor && d2.value <= ceil) {
+            event.preventDefault()
+            dragPrimed2.value = true
+            d2.value = Math.floor((floor + ceil) / 2)
+          }
+        }
+      }
+    }
+
+    const update = () => {
+      act1.value = act1Table[d1.value - 1]
+      act2.value = act2Table[d2.value - 1]
+    }
+
+    const dragUpdate1 = (event: MouseEvent) => {
+      if (dragPrimed1.value === true) {
+        const cell = event.target as HTMLElement
+
+        const floor = Number(cell.dataset.flr)
+        const ceil = Number(cell.dataset.clg)
+
+        if (floor && ceil) {
+          d1.value = Math.floor((floor + ceil) / 2)
+          update()
+        }
+      }
+    }
+
+    const dragUpdate2 = (event: MouseEvent) => {
+      if (dragPrimed2.value === true) {
+        const cell = event.target as HTMLElement
+
+        const floor = Number(cell.dataset.flr)
+        const ceil = Number(cell.dataset.clg)
+
+        if (floor && ceil) {
+          d2.value = Math.floor((floor + ceil) / 2)
+          update()
+        }
+      }
+    }
+
+    const endDrag = () => {
+      dragPrimed1.value = false
+      dragPrimed2.value = false
+    }
+
+    onMounted(() => {
+      document.addEventListener('mouseup', endDrag)
+    })
 
     return {
       d,
@@ -83,18 +157,27 @@ export default defineComponent({
       d2,
       act1Table,
       act2Table,
+      act1,
+      act2,
       columns,
       rows,
-      transposeEntry
+      transposeEntry,
+      dragPrimed1,
+      dragPrimed2,
+      primeDrag1,
+      dragUpdate1,
+      primeDrag2,
+      dragUpdate2,
+      update,
+      endDrag
     }
   },
 
   methods: {
     roll () {
       this.d1 = this.d(100)
-      this.act1 = this.act1Table[this.d1 - 1]
       this.d2 = this.d(100)
-      this.act2 = this.act2Table[this.d2 - 1]
+      this.update()
     },
 
     clearRoll () {

@@ -16,7 +16,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/testground',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/DragPlayground.vue') }]
+    children: [{ path: '', component: () => import('pages/Playground.vue') }]
   },
 
   // Always leave this as last one,
