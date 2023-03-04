@@ -32,10 +32,12 @@
             </tr>
           </tbody>
         </table>
+        {{ d3 ? d3 : 'waiting. . .' }}
+        {{ act3 ? act3 : 'failing. . . ' }}
         <T-Display
           :modelValue="act1Table"
-          :roll="d3"
-          @roll-update="iforogtthedamnname"
+          ref="testTable"
+          @new-result="updateResult"
         />
       </div>
       <div>
@@ -57,13 +59,15 @@ import TDisplay from 'src/components/TableDisplay.vue'
 export default defineComponent({
   name: 'MeaningTable',
   components: { TDisplay },
+  emits: ['newResult'],
   setup () {
     const d = (size: number) => {
       return Math.floor(Math.random() * size) + 1
     }
+    const testTable = ref<typeof TDisplay | null>(null)
     const d1 = ref(d(100))
     const d2 = ref(d(100))
-    const d3 = ref(d(100))
+    const d3 = ref<(number | undefined)>(undefined)
 
     const actTable = tables[0]?.Meaning?.find((meaning) => meaning.Name === 'Action')
 
@@ -72,6 +76,7 @@ export default defineComponent({
 
     const act1 = ref(undefined as (string | number)[] | undefined)
     const act2 = ref(undefined as (string | number)[] | undefined)
+    const act3 = ref(undefined as (string | undefined) | undefined)
     const columns = 5
     const rows = Math.ceil(act1Table.length / columns)
 
@@ -167,6 +172,7 @@ export default defineComponent({
       act2Table,
       act1,
       act2,
+      act3,
       columns,
       rows,
       transposeEntry,
@@ -177,7 +183,8 @@ export default defineComponent({
       primeDrag2,
       dragUpdate2,
       update,
-      endDrag
+      endDrag,
+      testTable
     }
   },
 
@@ -185,16 +192,18 @@ export default defineComponent({
     roll () {
       this.d1 = this.d(100)
       this.d2 = this.d(100)
+      this.testTable?.roll()
       this.update()
     },
 
     clearRoll () {
+      this.testTable?.clearRoll()
       this.act1 = undefined as (string | number)[] | undefined
       this.act2 = undefined as (string | number)[] | undefined
     },
 
-    iforogtthedamnname (whatever: number) {
-      this.d3 = whatever
+    updateResult (result: (string | undefined)) {
+      this.act3 = result
     }
   }
 })
