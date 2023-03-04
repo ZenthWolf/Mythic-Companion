@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div>
-        <hr color="black"/>
+        <hr color="#555555"/>
           <div v-if="act1 && act2" style="text-align: center;">
             {{ d1 }} {{ act1[2] }}<br>
             {{ d2 }} {{ act2[2] }}<br>
@@ -10,7 +10,7 @@
           <div v-else>
             <br><br>
           </div>
-        <hr color="black"/>
+          <hr color="#555555"/>
         <h4 class="table-title">Action 1</h4>
         <table v-on:mousedown="primeDrag1" v-on:mousemove="dragUpdate1">
           <tbody>
@@ -21,7 +21,7 @@
             </tr>
           </tbody>
         </table>
-        <hr color="black"/>
+        <hr color="#555555"/>
         <h4 class="table-title">Action 2</h4>
         <table v-on:mousedown="primeDrag2" v-on:mousemove="dragUpdate2">
           <tbody>
@@ -32,6 +32,11 @@
             </tr>
           </tbody>
         </table>
+        <T-Display
+          :modelValue="act1Table"
+          :roll="d3"
+          @roll-update="iforogtthedamnname"
+        />
       </div>
       <div>
         <button class="btn btn-secondary button" @click="roll">Roll</button>
@@ -47,16 +52,18 @@
 import { defineComponent, ref, onMounted } from 'vue'
 
 import tables from 'src/lib/mythictables.json'
+import TDisplay from 'src/components/TableDisplay.vue'
 
 export default defineComponent({
   name: 'MeaningTable',
-  components: { },
+  components: { TDisplay },
   setup () {
     const d = (size: number) => {
       return Math.floor(Math.random() * size) + 1
     }
     const d1 = ref(d(100))
     const d2 = ref(d(100))
+    const d3 = ref(d(100))
 
     const actTable = tables[0]?.Meaning?.find((meaning) => meaning.Name === 'Action')
 
@@ -155,6 +162,7 @@ export default defineComponent({
       tables,
       d1,
       d2,
+      d3,
       act1Table,
       act2Table,
       act1,
@@ -183,6 +191,10 @@ export default defineComponent({
     clearRoll () {
       this.act1 = undefined as (string | number)[] | undefined
       this.act2 = undefined as (string | number)[] | undefined
+    },
+
+    iforogtthedamnname (whatever: number) {
+      this.d3 = whatever
     }
   }
 })

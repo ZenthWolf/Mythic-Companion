@@ -1,0 +1,17 @@
+**Figure out Design Interface of User-Table Interaction**
+
+Adventure Journal Management
+    - Might help having this in place to figure out design constraints
+
+Table Display Component
+    - Straightforward
+
+Fate Chart Rolls
+
+44, 100 entry tables to JSON
+
+List Charts (Random PC, NPC, Thread)
+
+Custom Tables
+
+Additional Mythic Options laster

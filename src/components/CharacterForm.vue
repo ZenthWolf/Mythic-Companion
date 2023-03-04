@@ -1,5 +1,5 @@
 <template>
-    <hr color="black"/>
+    <hr color="#555555"/>
     <q-item>
       <q-item-section>
         <i-input class="q-mb-md" label="Name" v-model="character.name" />

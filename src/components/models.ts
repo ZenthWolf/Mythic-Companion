@@ -15,17 +15,6 @@ export interface ICharacter {
   notes: string
 }
 
-export interface IIndexItem {
-  name: string
-  id: string
-}
-
-export interface IConfig {
-  id: number
-  current: string
-  index: IIndexItem[]
-  saving: boolean
-}
 // NPC (Non-Player Character)
 export interface INPC {
   id: string
@@ -49,4 +38,18 @@ export interface ICampaign {
   character: ICharacter[]
   npc: INPC[]
   thread: IThread[]
+}
+
+// Index a Collection
+export interface IIndexItem {
+  name: string
+  id: string
+}
+
+// Game Configuration
+export interface IConfig {
+  id: number
+  current: string
+  index: IIndexItem[]
+  saving: boolean
 }
