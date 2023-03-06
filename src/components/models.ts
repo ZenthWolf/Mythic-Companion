@@ -53,3 +53,8 @@ export interface IConfig {
   index: IIndexItem[]
   saving: boolean
 }
+
+export interface IMeaningTable {
+  Name: string
+  Table: (string | number)[][]
+}

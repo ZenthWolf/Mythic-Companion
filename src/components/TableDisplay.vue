@@ -1,12 +1,11 @@
 <template>
   <hr color="#555555"/>
-  <h4 class="table-title">Table Title</h4>
-  {{ selected ? `${selected[1]}: ${selected[2]}` : '' }}
+  <h4 class="table-title">{{meaning.Name}}</h4>
   <table v-on:mousedown="primeDrag" v-on:mousemove="dragUpdate">
     <tbody>
       <tr v-for="i in rows" :key="i">
-        <td v-for="j in columns" :key="j" class="table-entry" :class="{ 'selected': selected && modelValue[transposeEntry(i, j)][2] === selected[2], 'unselected': selected && modelValue[transposeEntry(i, j)][2] !== selected[2] }" :data-flr="modelValue[transposeEntry(i, j)][0]" :data-clg="modelValue[transposeEntry(i, j)][1]">
-          {{ `${modelValue[transposeEntry(i, j)][1]}: ${modelValue[transposeEntry(i, j)][2]}` }}
+        <td v-for="j in columns" :key="j" class="table-entry" :class="{ 'selected': selected && meaning.Table[transposeEntry(i, j)][2] === selected[2], 'unselected': selected && meaning.Table[transposeEntry(i, j)][2] !== selected[2] }" :data-flr="meaning.Table[transposeEntry(i, j)][0]" :data-clg="meaning.Table[transposeEntry(i, j)][1]">
+          {{ `${meaning.Table[transposeEntry(i, j)][1]}: ${meaning.Table[transposeEntry(i, j)][2]}` }}
         </td>
       </tr>
     </tbody>
@@ -16,16 +15,18 @@
 <script lang="ts">
 
 import {
-  defineComponent, ref, PropType,
-  onMounted
+  defineComponent,
+  ref, onMounted, watch
 } from 'vue'
+
+import tables from 'src/lib/mythictables.json'
 
 export default defineComponent({
   name: 'TDisplay',
 
   props: {
     modelValue: {
-      type: Array as PropType<(string | number)[][]>,
+      type: String,
       required: true
     },
     columns: {
@@ -36,15 +37,21 @@ export default defineComponent({
 
   emits: ['new-result'],
   setup (props, { emit }) {
-    const drag = ref(false)
-    const rows = Math.ceil(props.modelValue.length / props.columns)
+    const parse = (id: string) => {
+      const path = id.split('/')
+      const category = tables[0]?.Meaning?.find((meaning) => meaning.Name === path[0])
+      return category?.Subcategory?.find((subcategory): subcategory is { Name: string; Table: (string | number)[][] } => subcategory.Name === path[1]) || { Name: 'Table Error', Table: [] }
+    }
+
+    const meaning = ref(parse(props.modelValue))
+    const rows = Math.ceil(meaning.value.Table.length / props.columns)
 
     const d = (size: number) => {
       return Math.floor(Math.random() * size) + 1
     }
 
     const d1 = ref<number | undefined>(undefined)
-    const selected = ref(d1.value ? props.modelValue[d1.value - 1] : undefined)
+    const selected = ref(d1.value ? meaning.value.Table[d1.value - 1] : undefined)
 
     const transposeEntry = (i:number, j:number) => {
       return (j - 1) * rows + i - 1
@@ -59,6 +66,8 @@ export default defineComponent({
       d1.value = undefined
       selected.value = undefined
     }
+
+    const drag = ref(false)
 
     const primeDrag = (event: MouseEvent) => {
       if (drag.value === false) {
@@ -76,7 +85,7 @@ export default defineComponent({
     }
 
     const updateSelection = () => {
-      selected.value = d1.value ? props.modelValue[d1.value - 1] : undefined
+      selected.value = d1.value ? meaning.value.Table[d1.value - 1] : undefined
       emit('new-result', selected.value ? `${selected.value[1]}: ${selected.value[2]}` : 'undefined')
     }
 
@@ -102,7 +111,17 @@ export default defineComponent({
       document.addEventListener('mouseup', endDrag)
     })
 
+    watch(
+      () => props.modelValue,
+      () => {
+        meaning.value = parse(props.modelValue)
+      },
+      { deep: true }
+    )
+
     return {
+      parse,
+      meaning,
       drag,
       rows,
       d,
