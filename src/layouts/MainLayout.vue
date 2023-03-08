@@ -19,6 +19,7 @@
       <q-tabs class="mythic-tabs" align="center" dense justify="center">
         <q-route-tab to="/" label="Campaign" />
         <q-route-tab to="/index" label="Index" />
+        <q-route-tab to="/journal" label="Journal" />
         <q-route-tab to="/testground" label="TestGround" />
       </q-tabs>
       <q-img
