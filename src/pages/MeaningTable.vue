@@ -1,35 +1,35 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div>
-        <hr color="#555555"/>
-        <div v-if="act1 && act2" style="text-align: center;">
-          {{ act1 }}<br>
-          {{ act2 }}<br>
-        </div>
-        <div v-else>
-          <br><br>
-        </div>
-        <T-Display
-          :modelValue="meaning1.valueOf()"
-          ref="tabDisplay1"
-          @new-result="updateResult1"
-        />
-        <T-Display
-          :modelValue="meaning2.valueOf()"
-          ref="tabDisplay2"
-          @new-result="updateResult2"
-        />
-      </div>
-      <div>
+  <q-page class="column items-center justify-evenly">
+    <div class="container">
+      <div class="row">
         <div>
-          <button class="btn btn-secondary button" @click="roll">Roll</button>
-          <button class="btn btn-secondary button" style="margin-left: 2px;" @click="clearRoll">Clear</button>
+          <hr color="#555555"/>
+          <div style="text-align: center;">
+            {{ act1 || '' }}<br>
+            {{ act2 || '' }}<br>
+          </div>
+          <T-Display
+            :modelValue="meaning1.valueOf()"
+            ref="tabDisplay1"
+            @new-result="updateResult1"
+          />
+          <T-Display
+            :modelValue="meaning2.valueOf()"
+            ref="tabDisplay2"
+            @new-result="updateResult2"
+          />
         </div>
-        <button class="btn btn-secondary button" style="margin-top: 1px; margin-left:17px" @click="swapTest">Swap</button>
+        <div>
+          <div>
+            <button class="btn btn-secondary button" @click="roll">Roll</button>
+            <button class="btn btn-secondary button" style="margin-left: 2px;" @click="clearRoll">Clear</button>
+          </div>
+          <button class="btn btn-secondary button" style="margin-top: 1px; margin-left:17px" @click="swapTest">Swap</button>
+        </div>
       </div>
     </div>
-  </div>
+    <q-img src="../statics/test.png" style="width:250px; height:auto;"/>
+  </q-page>
 </template>
 
 <script lang="ts">
@@ -38,7 +38,7 @@ import { defineComponent, ref } from 'vue'
 import TDisplay from 'src/components/TableDisplay.vue'
 
 export default defineComponent({
-  name: 'MeaningTable',
+  name: 'MeaningPage',
   components: { TDisplay },
   setup () {
     const tabDisplay1 = ref<typeof TDisplay | null>(null)
