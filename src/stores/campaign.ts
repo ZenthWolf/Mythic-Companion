@@ -3,11 +3,10 @@ import {
   ICampaign
 } from 'components/models'
 
-import { NewCampaign } from 'src/lib/campaign'
+import { NewCampaign, NewJournal } from 'src/lib/campaign'
 import { useConfig } from './config'
 import { db } from 'src/lib/db'
 import { v4 as uuid } from 'uuid'
-// import { exportFile } from 'quasar'
 
 export const useCampaign = defineStore({
   id: 'campaign',
@@ -53,6 +52,10 @@ export const useCampaign = defineStore({
       }
     },
 
+    appendToJournal (index: number, text: string) {
+      this.data.journal[index].content += text
+    },
+
     async save () {
       const storeCopy = JSON.parse(JSON.stringify(this.data)) as ICampaign
       await db.campaign.update(this.data.id, storeCopy).catch((err) => console.log(err))
@@ -81,6 +84,10 @@ export const useCampaign = defineStore({
       try {
         const campaign = await db.campaign.get(id)
         if (campaign) {
+          // Example of updating functionality to old users
+          if (!campaign.journal) {
+            campaign.journal = [NewJournal()]
+          }
           this.data = campaign
         } else {
           await this.loadFirst()

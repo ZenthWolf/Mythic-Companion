@@ -31,6 +31,13 @@ export interface IThread {
   npcID: string[]
 }
 
+// Journal Entry
+export interface IJournalEntry {
+  title: string;
+  content: string;
+  pinned?: boolean;
+}
+
 // Campaign
 export interface ICampaign {
   id: string
@@ -38,6 +45,7 @@ export interface ICampaign {
   character: ICharacter[]
   npc: INPC[]
   thread: IThread[]
+  journal: IJournalEntry[]
 }
 
 // Index a Collection
@@ -54,6 +62,7 @@ export interface IConfig {
   saving: boolean
 }
 
+// Meaning Table
 export interface IMeaningTable {
   Name: string
   Table: (string | number)[][]

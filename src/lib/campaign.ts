@@ -1,21 +1,31 @@
 import {
-  ICampaign
+  ICampaign, ICharacter, IJournalEntry
 } from 'src/components/models'
 import { v4 as uuid } from 'uuid'
 
-export const NewCampaign = (): ICampaign => {
-  const character = {
+export const NewCharacter = (): ICharacter => {
+  return {
     id: uuid(),
     name: 'Simon',
     desc: '',
     notes: ''
   }
+}
 
+export const NewJournal = (): IJournalEntry => {
+  return {
+    title: 'New Entry',
+    content: ''
+  }
+}
+
+export const NewCampaign = (): ICampaign => {
   return {
     id: uuid(),
     name: 'Campaign Name',
-    character: [character],
+    character: [NewCharacter()],
     npc: [],
-    thread: []
+    thread: [],
+    journal: [NewJournal()]
   }
 }
