@@ -187,7 +187,6 @@ export default defineComponent({
       showCampaignDelete,
       showAbout,
       toggleLeftDrawer () {
-        console.log('test')
         leftDrawerOpen.value = !leftDrawerOpen.value
       }
     }

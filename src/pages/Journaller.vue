@@ -1,5 +1,5 @@
 <template>
-  <q-page class="column items-center justify-evenly">
+  <q-page class="column full-width items-center justify-evenly">
     <JDisplay />
   </q-page>
 </template>
