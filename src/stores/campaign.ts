@@ -52,8 +52,9 @@ export const useCampaign = defineStore({
       }
     },
 
-    appendToJournal (index: number, text: string) {
-      this.data.journal[index].content += text
+    appendToJournal (text: string) {
+      const latestIndex = this.data.journal.length - 1
+      this.data.journal[latestIndex].content += text
     },
 
     async save () {

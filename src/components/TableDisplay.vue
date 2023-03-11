@@ -86,7 +86,11 @@ export default defineComponent({
 
     const updateSelection = () => {
       selected.value = d1.value ? meaning.value.Table[d1.value - 1] : undefined
-      emit('new-result', selected.value ? `${selected.value[1]}: ${selected.value[2]}` : 'undefined')
+      const result = {
+        roll: d1.value,
+        result: selected.value ? selected.value[2] : undefined
+      }
+      emit('new-result', result)
     }
 
     const dragUpdate = (event: MouseEvent) => {

@@ -5,8 +5,8 @@
         <div>
           <hr color="#555555"/>
           <div style="text-align: center;">
-            {{ act1 || '' }}<br>
-            {{ act2 || '' }}<br>
+            {{ result1 || '' }}<br>
+            {{ result2 || '' }}<br>
           </div>
           <T-Display
             :modelValue="meaning1.valueOf()"
@@ -19,12 +19,13 @@
             @new-result="updateResult2"
           />
         </div>
-        <div>
+        <div class="column" style="align-items: center;">
           <div>
             <button class="btn btn-secondary button" @click="roll">Roll</button>
             <button class="btn btn-secondary button" style="margin-left: 2px;" @click="clearRoll">Clear</button>
           </div>
-          <button class="btn btn-secondary button" style="margin-top: 1px; margin-left:17px" @click="swapTest">Swap</button>
+          <button class="btn btn-secondary button" style="margin-top: 5px; margin-right:0px" @click="recordRoll">Journal</button>
+          <button class="btn btn-secondary button" style="margin-top: 1px; margin-right:0px" @click="swapTable">Swap</button>
         </div>
       </div>
     </div>
@@ -35,22 +36,40 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 
+import { useCampaign } from 'src/stores/campaign'
 import TDisplay from 'src/components/TableDisplay.vue'
+
+interface NewResult {
+  roll: number | undefined;
+  result: string | undefined;
+}
 
 export default defineComponent({
   name: 'MeaningPage',
   components: { TDisplay },
   setup () {
+    const campaign = useCampaign()
+
     const tabDisplay1 = ref<typeof TDisplay | null>(null)
     const tabDisplay2 = ref<typeof TDisplay | null>(null)
 
     const meaning1 = ref('Action/Action 1')
     const meaning2 = ref('Action/Action 2')
 
-    const act1 = ref(undefined as (string | undefined) | undefined)
-    const act2 = ref(undefined as (string | undefined) | undefined)
+    const act1 = ref<NewResult>({ roll: undefined, result: undefined })
+    const act2 = ref<NewResult>({ roll: undefined, result: undefined })
 
+    const result1 = ref(undefined as (string | undefined))
+    const result2 = ref(undefined as (string | undefined))
+
+    const recordRoll = () => {
+      if (result1.value && result2.value) {
+        campaign.appendToJournal(`<br>[[${meaning1.value.split('/')[0]} ${act1.value.roll}/${act2.value.roll}: ${act1.value.result} ${act2.value.result}]]`)
+      }
+    }
     return {
+      campaign,
+
       tabDisplay1,
       tabDisplay2,
 
@@ -58,7 +77,12 @@ export default defineComponent({
       meaning2,
 
       act1,
-      act2
+      act2,
+
+      result1,
+      result2,
+
+      recordRoll
     }
   },
 
@@ -71,11 +95,11 @@ export default defineComponent({
     clearRoll () {
       this.tabDisplay1?.clearRoll()
       this.tabDisplay2?.clearRoll()
-      this.act1 = undefined
-      this.act2 = undefined
+      this.result1 = undefined
+      this.result2 = undefined
     },
 
-    swapTest () {
+    swapTable () {
       if (this.meaning1.split('/')[0] === 'Action') {
         this.meaning1 = 'Descriptor/Descriptor 1'
         this.meaning2 = 'Descriptor/Descriptor 2'
@@ -87,12 +111,14 @@ export default defineComponent({
       }
     },
 
-    updateResult1 (result: (string | undefined)) {
+    updateResult1 (result: NewResult) {
       this.act1 = result
+      this.result1 = `${this.act1.roll}: ${this.act1.result}`
     },
 
-    updateResult2 (result: (string | undefined)) {
+    updateResult2 (result: NewResult) {
       this.act2 = result
+      this.result2 = `${this.act2.roll}: ${this.act2.result}`
     }
   }
 })
