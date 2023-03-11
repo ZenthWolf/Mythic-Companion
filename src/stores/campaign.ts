@@ -52,9 +52,23 @@ export const useCampaign = defineStore({
       }
     },
 
-    appendToJournal (text: string) {
+    async appendToJournal (text: string) {
       const latestIndex = this.data.journal.length - 1
       this.data.journal[latestIndex].content += text
+    },
+
+    async increaseChaos () {
+      this.data.chaos_factor = Math.min(this.data.chaos_factor + 1, 9)
+    },
+
+    async decreaseChaos () {
+      this.data.chaos_factor = Math.max(this.data.chaos_factor - 1, 1)
+    },
+
+    async setChaos (cf: number) {
+      if (cf >= 1 && cf <= 9 && Number.isInteger(cf)) {
+        this.data.chaos_factor = cf
+      }
     },
 
     async save () {
@@ -85,10 +99,14 @@ export const useCampaign = defineStore({
       try {
         const campaign = await db.campaign.get(id)
         if (campaign) {
-          // Example of updating functionality to old users
+          // Examples of updating functionality to old users
           if (!campaign.journal) {
             campaign.journal = [NewJournal()]
           }
+          if (!campaign.chaos_factor) {
+            campaign.chaos_factor = 5
+          }
+
           this.data = campaign
         } else {
           await this.loadFirst()

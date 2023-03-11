@@ -42,6 +42,7 @@ export interface IJournalEntry {
 export interface ICampaign {
   id: string
   name: string
+  chaos_factor: number
   character: ICharacter[]
   npc: INPC[]
   thread: IThread[]

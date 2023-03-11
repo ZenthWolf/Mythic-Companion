@@ -23,6 +23,7 @@ export const NewCampaign = (): ICampaign => {
   return {
     id: uuid(),
     name: 'Campaign Name',
+    chaos_factor: 5,
     character: [NewCharacter()],
     npc: [],
     thread: [],

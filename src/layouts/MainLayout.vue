@@ -2,19 +2,25 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated style="height: 200px; padding: 20px;">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title>
-          Mythic Companion
-        </q-toolbar-title>
+        <div class="column full-width" style="margin-top: 0px;">
+          <div class="row">
+            <q-btn
+              flat
+              dense
+              round
+              icon="menu"
+              aria-label="Menu"
+              @click="toggleLeftDrawer"
+            />
+            <q-toolbar-title>
+              Mythic Companion
+            </q-toolbar-title>
 
-        <div>By: ZenthWolf</div>
+            <div>By: ZenthWolf</div>
+          </div>
+          <h3 class="text-center" style="margin-top: 10px; margin-bottom: 0px;">{{ campaign.data.name }}</h3>
+          <h6 class="text-center" style="margin-top: 10px;">{{ `Chaos Factor: ${campaign.data.chaos_factor}` }}</h6>
+        </div>
       </q-toolbar>
       <q-tabs class="mythic-tabs" align="center" dense justify="center">
         <q-route-tab to="/" label="Campaign" />
@@ -215,6 +221,10 @@ export default defineComponent({
 }
 
 .card-header {
+  color: $off-white
+}
+
+.q-header {
   color: $off-white
 }
 </style>
