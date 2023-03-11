@@ -7,7 +7,7 @@
         <i-input class="col-grow q-ml-sm q-mr-sm" label="Title" v-model="campaign.data.journal[index].title" />
         <q-btn class="col-shrink" flat dense icon="info" @click="testFunction" />
         <!--<q-btn class="col-shrink" v-if="config.data.edit" flat dense icon="delete" @click="$emit('remove')">-->
-        <q-btn class="col-shrink" flat dense icon="delete" @click="$emit('remove')">
+        <q-btn class="col-shrink" flat dense icon="delete" @click="$emit('remove', index)">
           <q-tooltip>Delete this journal entry</q-tooltip>
         </q-btn>
       </div>
