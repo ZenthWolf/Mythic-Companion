@@ -1,27 +1,27 @@
 <template>
-  {{ `For ${campaign.data.name}` }}<br>
-  {{ `Journal title is ${campaign.data.journal[0].title}` }}<br>
-  {{ `Journal length is ${campaign.data.journal.length}` }}<br>
-  <q-expansion-item class="q-px-sm" header-class="q-py-none q-px-none" :default-opened="open" expand-icon-toggle>
+  <div class="column items-center">
+    {{ `For ${campaign.data.name}` }}<br>
+    {{ `Journal title is ${campaign.data.journal[0].title}` }}<br>
+    {{ `Journal length is ${campaign.data.journal.length}` }}<br>
+  </div>
+  <q-expansion-item header-class="q-py-none q-px-none" :default-opened="open" expand-icon-toggle>
     <template v-slot:header>
-      <div class="column full-width items-center">
-        <div class="row">
-          <i-input label="Title" v-model="campaign.data.journal[0].title" />
-          <q-btn flat dense icon="info" @click="testFunction" />
-          <!--<q-btn class="col-shrink" v-if="config.data.edit" flat dense icon="delete" @click="$emit('remove')">-->
-          <q-btn flat dense icon="delete" @click="$emit('remove')">
-            <q-tooltip>Delete this journal entry</q-tooltip>
-          </q-btn>
-        </div>
-        <div class="q-pa-md q-gutter-sm">
-          <q-editor placeholder="Journal Body"
-          content-class="journal-body"
-          v-model="campaign.data.journal[0].content"
-          min-height="6rem"
-          />
-        </div>
+      <div class="row full-width items-center">
+        <i-input class="col-grow q-mr-sm" label="Title" v-model="campaign.data.journal[0].title" />
+        <q-btn class="col-shrink" flat dense icon="info" @click="testFunction" />
+        <!--<q-btn class="col-shrink" v-if="config.data.edit" flat dense icon="delete" @click="$emit('remove')">-->
+        <q-btn class="col-shrink" flat dense icon="delete" @click="$emit('remove')">
+          <q-tooltip>Delete this journal entry</q-tooltip>
+        </q-btn>
       </div>
     </template>
+    <div class="q-mt-xs">
+      <q-editor placeholder="Journal Body"
+      content-class="journal-body"
+      v-model="campaign.data.journal[0].content"
+      min-height="6rem"
+      />
+    </div>
   </q-expansion-item>
 </template>
 
@@ -33,7 +33,7 @@ import { useConfig } from 'src/stores/config'
 import IInput from 'src/components/IInput.vue'
 
 export default defineComponent({
-  name: 'JDisplay',
+  name: 'JDisplay2',
   components: { IInput },
 
   setup () {
