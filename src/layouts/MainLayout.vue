@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated style="height: 200px; padding: 20px;">
+    <q-header elevated style="height: 200px; padding: 10px;">
       <q-toolbar>
         <div class="column full-width" style="margin-top: 0px;">
           <div class="row">
@@ -36,7 +36,6 @@
     </q-header>
     <q-drawer elevated overlay class="left-drawer"
       v-model="leftDrawerOpen"
-      show-if-above
       bordered
     >
       <q-list>

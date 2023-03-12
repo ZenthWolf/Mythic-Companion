@@ -6,7 +6,6 @@
         <span class="text-bold">{{ (index + 1).toString().padStart(3,'0') }}:</span>
         <i-input class="col-grow q-ml-sm q-mr-sm" label="Title" v-model="campaign.data.journal[index].title" />
         <span class="text-bold">{{ `CF: ${campaign.data.journal[index].chaos_factor}` }}:</span>
-        <q-btn class="col-shrink" flat dense icon="info" @click="testFunction" />
         <!--<q-btn class="col-shrink" v-if="config.data.edit" flat dense icon="delete" @click="$emit('remove')">-->
         <q-btn class="col-shrink" flat dense icon="delete" @click="$emit('remove', index)">
           <q-tooltip>Delete this journal entry</q-tooltip>
@@ -51,14 +50,9 @@ export default defineComponent({
     const campaign = useCampaign()
     const config = useConfig()
 
-    const testFunction = () => {
-      console.log('buttonclicked')
-    }
     return {
       campaign,
-      config,
-
-      testFunction
+      config
     }
   }
 })

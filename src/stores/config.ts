@@ -29,6 +29,8 @@ export const useConfig = defineStore({
 
     async save () {
       console.log('saved')
+      const storeCopy = JSON.parse(JSON.stringify(this.data)) as IConfig
+      await db.config.update(1, storeCopy).catch((err) => console.log(err))
     },
 
     async updateIndex () {
