@@ -1,11 +1,12 @@
 <template>
-  <q-btn label="new entry" @click="addJournal" />
+  <q-btn class="button" label="New +CF" @click="entryWithMoreChaos" />
+  <q-btn class="button" label="New" @click="addJournal" />
+  <q-btn class="button" label="New -CF" @click="entryWithLessChaos" />
   <div class="column items-center">
     <h3 style="margin: 0">Journal</h3><br>
     {{ `Latest journal entry is ${campaign.data.journal[campaign.data.journal.length-1].title}` }}<br>
     {{ `Journal length is ${campaign.data.journal.length}` }}<br>
   </div>
-  <!--<q-page class="column full-width items-center justify-evenly">-->
   <q-page padding>
     <div v-for="(journal, index) in campaign.data.journal" :key="index">
       <JDisplay
@@ -29,7 +30,18 @@ export default defineComponent({
   setup () {
     const campaign = useCampaign()
 
-    const addJournal = () => { campaign.data.journal.push(NewJournal()) }
+    const entryWithMoreChaos = () => {
+      ++campaign.data.chaos_factor
+      addJournal()
+    }
+
+    const addJournal = () => { campaign.data.journal.push(NewJournal(campaign.data.chaos_factor)) }
+
+    const entryWithLessChaos = () => {
+      --campaign.data.chaos_factor
+      addJournal()
+    }
+
     const removeJournal = (index: number) => {
       if (campaign.data.journal.length > 1) {
         if (window.confirm('Are you sure you want to delete this entry?')) campaign.data.journal.splice(index, 1)
@@ -39,9 +51,20 @@ export default defineComponent({
     return {
       campaign,
 
+      entryWithMoreChaos,
       addJournal,
+      entryWithLessChaos,
+
       removeJournal
     }
   }
 })
 </script>
+
+<style lang="scss">
+.button {
+  background: $primary;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+</style>

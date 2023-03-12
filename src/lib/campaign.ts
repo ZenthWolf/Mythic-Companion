@@ -12,9 +12,10 @@ export const NewCharacter = (): ICharacter => {
   }
 }
 
-export const NewJournal = (): IJournalEntry => {
+export const NewJournal = (cf: number): IJournalEntry => {
   return {
     title: 'New Entry',
+    chaos_factor: cf,
     content: ''
   }
 }
@@ -27,6 +28,6 @@ export const NewCampaign = (): ICampaign => {
     character: [NewCharacter()],
     npc: [],
     thread: [],
-    journal: [NewJournal()]
+    journal: [NewJournal(5)]
   }
 }

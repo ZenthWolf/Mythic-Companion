@@ -34,6 +34,7 @@ export interface IThread {
 // Journal Entry
 export interface IJournalEntry {
   title: string;
+  chaos_factor: number;
   content: string;
   pinned?: boolean;
 }

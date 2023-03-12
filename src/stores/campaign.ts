@@ -101,10 +101,15 @@ export const useCampaign = defineStore({
         if (campaign) {
           // Examples of updating functionality to old users
           if (!campaign.journal) {
-            campaign.journal = [NewJournal()]
+            campaign.journal = [NewJournal(campaign.chaos_factor)]
           }
           if (!campaign.chaos_factor) {
             campaign.chaos_factor = 5
+          }
+          for (const entry of campaign.journal) {
+            if (!entry.chaos_factor) {
+              entry.chaos_factor = campaign.chaos_factor
+            }
           }
 
           this.data = campaign
