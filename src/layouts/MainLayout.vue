@@ -24,7 +24,7 @@
       </q-toolbar>
       <q-tabs class="mythic-tabs" align="center" dense justify="center">
         <q-route-tab to="/" label="Campaign" />
-        <q-route-tab to="/index" label="Index" />
+        <q-route-tab to="/table" label="Meaning Table" />
         <q-route-tab to="/journal" label="Journal" />
         <q-route-tab to="/testground" label="TestGround" />
       </q-tabs>
@@ -119,20 +119,18 @@
           <q-btn class="col-shrink" flat dense icon="close" @click="showAbout = false" />
         </q-card-section>
         <q-card-section class="about-text text-justify">
-          <div class="q-my-sm">
-            Mythic GME 2E is &copy;
-            <a href="https://www.wordmillgames.com/page/mythic-gme.html">Tana Pigeon</a>
-          </div>
           <div>
-            Mythic Game Master Emulator 2nd Edition is copyright © 2023 by Tana Pigeon and Word Mill Games.
+            Mythic Game Master Emulator 2nd Edition is copyright © <a href="https://www.wordmillgames.com/page/mythic-gme.html">Tana Pigeon</a> and Word Mill Games.
           </div>
           <div class="q-my-sm">
             Made with inspiration from
             <a href="https://nboughton.uk/">Nick Boughton</a> and his great tools for Ironsworn.
           </div>
           <div class="q-my-sm">
-            A real, official app for Mythic 2E is in development, and this project certainly isn't it. Keep an eye out for it!
-            Keep an eye out for it on the <a href="https://discord.gg/qMqNmNx">Discord Channel</a>!
+            This has no relation to the <a href="https://play.google.com/store/apps/details?id=com.dasher.mythicgme2e&hl=en_US&gl=US&pli=1">the official app</a>! For the best experience, support the official app!
+          </div>
+          <div class="q-my-sm">
+            This is an independent project by ZenthWolf. Check out the <a href="https://github.com/ZenthWolf/Mythic-Companion">github repo</a> for more details.
           </div>
         </q-card-section>
       </q-card>
